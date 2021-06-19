@@ -19,7 +19,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const keyword = ref('')
     const searchHandle = () => {
-      if (!keyword.value) return
       emit('update:modelValue', keyword.value)
     }
     return { keyword, searchHandle }
