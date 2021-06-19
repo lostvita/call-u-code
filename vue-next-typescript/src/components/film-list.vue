@@ -1,6 +1,7 @@
 <template>
   <div class="film-list">
-    <div class="film-item" v-for="film in films" :key="film.id">
+    <div v-if="!filmList.length" class="film-empty">空空如也😥</div>
+    <div v-else class="film-item" v-for="film in filmList" :key="film.id">
       <img :src="film.picture" alt="" class="film-pic">
       <div class="film-info">
         <h3 class="film-title">{{ film.title }}</h3>
@@ -12,8 +13,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { computed, defineComponent, PropType } from 'vue'
 import { FilmItem } from '../types/item'
+import { OrderTerm } from '../types/term'
 
 export default defineComponent({
   name: 'FlimList',
@@ -21,7 +23,26 @@ export default defineComponent({
     films: {
       type: Array as PropType<FilmItem[]>,
       required: true
+    },
+    order: {
+      type: String as PropType<OrderTerm>,
+      default: 'title'
+    },
+    search: {
+      type: String,
+      default: ''
     }
+  },
+  setup(props) {
+    const filmList = computed(() => {
+      const nameRegx = props.search ? new RegExp(props.search, 'i') : false
+      return props.films.filter(v => !nameRegx || nameRegx.test(v.title)).sort((a, b) => {
+        const order = props.order
+        return a[order] > b[order] ? 1 : a[order] === b[order] ? 0 : -1
+      })
+    })
+
+    return { filmList }
   }
 })
 </script>
@@ -30,7 +51,7 @@ export default defineComponent({
 .film {
   &-list {
     max-width: 960px;
-    margin: 40px auto;
+    margin: 20px auto;
   }
 
   &-item {
@@ -61,6 +82,13 @@ export default defineComponent({
   &-description {
     line-height: 26px;
     color: #263859;
+  }
+
+  &-empty {
+    padding: 50px 0;
+    text-align: center;
+    color: #666;
+    font-size: 18px;
   }
 }
 </style>
