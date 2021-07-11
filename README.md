@@ -3,3 +3,4 @@
 - [x] calculator
 - [ ] web docs
 - [ ] face detection
+- [ ] video chat with WebRTC
