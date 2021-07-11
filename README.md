@@ -4,3 +4,4 @@
 - [ ] web docs
 - [ ] face detection
 - [ ] video chat with WebRTC
+- [ ] stage job
