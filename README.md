@@ -2,3 +2,4 @@
 - [x] vue@next-typescript
 - [x] calculator
 - [ ] web docs
+- [ ] face detection
