@@ -1,4 +1,4 @@
 # call-u-code-private
 - [x] vue@next-typescript
-- [ ] calculator
+- [x] calculator
 - [ ] web docs
