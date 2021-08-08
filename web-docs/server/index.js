@@ -15,6 +15,10 @@ io.on('connection', (socket) => {
     socket.join(docId)
     socket.emit('load-document', document.data)
 
+    socket.on('save-document', async (data) => {
+      await DocDbControl.updateDocumentById(docId, data)
+    })
+
     // text change event
     socket.on('send-changes', (data) => {
       socket.broadcast.to(docId).emit('receive-changes', data)

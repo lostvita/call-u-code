@@ -11,6 +11,7 @@ const Editor = () => {
   const [quill, setQuill] = useState(null)
   const [socket, setSocket] = useState(null)
 
+  // socket连接事务
   useEffect(() => {
     const s = io('http://localhost:3001')
     setSocket(s)
@@ -20,6 +21,7 @@ const Editor = () => {
     }
   }, [])
 
+  // 文档加载初始化事务
   useEffect(() => {
     if (!socket || !quill) return
     const handler = (data) => {
@@ -36,6 +38,7 @@ const Editor = () => {
     }
   }, [socket, quill, docId])
 
+  //  文档内容变更上传事务
   useEffect(() => {
     if (quill === null || socket === null) return
     const handler = (delta, oldDelta, source) => {
@@ -51,6 +54,7 @@ const Editor = () => {
     }
   }, [quill, socket])
 
+  // 文档协作内容同步事务
   useEffect(() => {
     if (socket === null || quill === null) return
     const handler = data => {
@@ -63,6 +67,26 @@ const Editor = () => {
       socket.off('receive-changes', handler)
     }
   }, [socket, quill])
+
+  // 自动保存事务
+  useEffect(() => {
+    if (!quill || !socket) return
+    let interval = 3000
+    let start = Date.now()
+    const saveHandler = (deadline) => {
+      if (Date.now() - start > interval && (deadline.timeRemaining() > 0 || deadline.didTimeout)) {
+        start = Date.now()
+        socket.emit('save-document', quill.getContents())
+      }
+      requestIdleCallback(saveHandler, { timeout: 5000 })
+    }
+    requestIdleCallback(saveHandler, { timeout: 5000 })
+
+    return () => {
+      start = null
+      interval = null
+    }
+  }, [quill, socket])
   
   const wrapperRef = useCallback((wrapper) => {
     if (!wrapper) return
