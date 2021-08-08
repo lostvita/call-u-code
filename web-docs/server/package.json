@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "serve": "node index.js"
+  },
+  "dependencies": {
+    "mongoose": "^5.13.5",
+    "socket.io": "^4.1.3"
+  }
+}
