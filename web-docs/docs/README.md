@@ -1,4 +1,4 @@
-# Mini web docs created width React
+# Mini web docs created with React
 
 - use react hook
 - use react-router
@@ -27,5 +27,5 @@ yarn
 
 yarn serve
 ```
+![image](https://user-images.githubusercontent.com/26505680/129224561-87345aea-3737-41a8-94fc-6c4fe86d3ff9.png)
 
-![image](https://user-images.githubusercontent.com/26505680/128634611-ae99bc3e-4319-42f0-93fb-06c047f8822b.png)
